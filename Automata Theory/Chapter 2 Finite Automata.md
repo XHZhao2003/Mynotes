@@ -20,9 +20,11 @@ zhihu-topics:
 5. A set of accepting states $F \subseteq Q$.
 
 Then the DFA can be represented by a five-tuple notation:
+
 $$
 A = (Q, \Sigma,\delta, q_0, F)
 $$
+
 ---
 **How does a DFA decides whether or not to accept a string**
 
@@ -44,18 +46,22 @@ $$
 **Basis**: $\hat{\delta}(q, \epsilon) = q$. That is the case when the input length is 0.
 
 **Induction**: Suppose $w = xa$ is a string, where $a$ is the last symbol of $w$ and $x \in \Sigma^*$. Then
+
 $$
 \hat{\delta}(q, w) = \delta(\hat{\delta}(q, x), a)
 $$
+
 That is, we first compute $\hat{\delta}(q, x)$  to find where we are after processing $x$ , and make another step by processing symbol $a$.
 
 ---
 **The language of a DFA**
 
 **Definition 2.3**: The language of a DFA $A = (Q, \Sigma, \delta, q_0, F)$ is defined by
+
 $$
 L(A) = \lbrace w \mid \hat{\delta}(q_0, w) \in F \rbrace
 $$
+
 That is, the language of $A$ is the set of strings that take the start state $q_0$ to one of the accepting states.
 
 If $L$ is $L(A)$ for some DFA $A$, then we say $L$ is a **regular language**.
@@ -81,9 +87,11 @@ Consider the NFA shown in Figure 2.9.
 
 ---
 **Definition 2.3**: An NFA is represented by a 5-tuple:
+
 $$
 A = (Q, \Sigma, \delta, q_0, F)
 $$
+
 where:
 1. $Q$ is a finite set of states.
 2. $\Sigma$ is a finite set of input symbols.
@@ -97,18 +105,22 @@ where:
 **Basis**: $\hat{\delta}(q, \epsilon) = \lbrace q \rbrace$. That is, without reading any input symbols, we are only in the state we begin in.
 
 **Induction**: Suppose $w = xa$ is a string, where $a$ is the last symbol of $w$ and $x \in \Sigma^*$. Also suppose that $\hat{\delta}(q, x) = \lbrace p_1, p_2, \cdots, p_k \rbrace$, then 
+
 $$
 \hat{\delta}(q, w) = \bigcup_{i=1}^k \delta(p_i, a)
 $$
+
 Less formally, we compute $\hat{\delta}(q, w)$ by first computing $\hat{\delta}(q, x)$ , and by then following any transition from any of these states the is labeled $a$.
 
 ---
 **The language of an NFA**
 
 **Definition 2.5**: The language of an NFA $A = (Q, \Sigma, \delta, q_0, F)$ is defined as
+
 $$
 L(A) = \lbrace w \mid \hat{\delta}(q_0, w) \, \cap \, F \neq \emptyset \rbrace
 $$
+
 That is, $L(A)$ is the set of strings $w \in \Sigma^*$ such that $\hat{\delta}(q_0, w)$ contains at least one accepting state.
 
 ---
@@ -130,6 +142,7 @@ Generally, the subset construction starts from an NFA $N = (Q_N, \Sigma, \delta_
 
 - $F_D$ is the set of subsets $S$ of $Q_N$ such that $S \, \cap \, F_N \neq \emptyset$.
 - For each set $S \subseteq Q_N$ and each input symbol $a \in \Sigma$, 
+	
 	$$
 	\delta_D(S, a) = \bigcup_{p\in S} \delta_N(p, a)
 	$$
@@ -141,6 +154,7 @@ Generally, the subset construction starts from an NFA $N = (Q_N, \Sigma, \delta_
 **Theorem 2.1**: If $D = (Q_D, \Sigma, \delta_D, \lbrace q_0 \rbrace, F_D)$ is the DFA constructed from NFA $N = (Q_N, \Sigma, \delta_N, q_0, F_N)$ by the subset construction, then $L(D) = L(A)$.
 
 **Proof**: We first prove by induction on $|w|$ that
+
 $$
 \hat{\delta}_D(\lbrace q_0 \rbrace, w) = \hat{\delta}_N(q_0, w)
 $$
@@ -152,17 +166,22 @@ If so, by the definition of $F_D$ and $F_N$, we have $L(D) = L(A)$.
 **Induction**: Let $|w| = n+1$, and assume the statement for length $n$. Break $w$ up as $w=xa$, where $a\in \Sigma$ is the last symbol of $w$. By inductive hypothesis, $\hat{\delta}_D(\lbrace q_0 \rbrace, x) = \hat{\delta}_N(q_0, x)$. Let both these sets of $N$'s states as $\lbrace p_1, p_2, \cdots, p_k \rbrace$.
 
 By the definition of $\hat{\delta}_N$ we have
+
 $$
 \hat{\delta}_N(q_0, w) = \bigcup_{i=1}^k \delta_N(p_i, a)
 $$
+
 By the definition of $\delta_D$ in subset construction, we have
+
 $$
 \delta_D(\lbrace p_1, p_2, \cdots p_k \rbrace, a) = \bigcup_{i=1}^k \delta_N(p_i, a)
 $$
- By the definition of $\hat{\delta}_D$, we can conclude that
- $$
- \hat{\delta}_D(\lbrace q_0 \rbrace, w) = \delta_D(\hat{\delta}_D({\lbrace q_0 \rbrace}, x), a) = \bigcup_{i=1}^k \delta_N(p_i, a)
- $$
+
+By the definition of $\hat{\delta}_D$, we can conclude that
+
+$$
+\hat{\delta}_D(\lbrace q_0 \rbrace, w) = \delta_D(\hat{\delta}_D({\lbrace q_0 \rbrace}, x), a) = \bigcup_{i=1}^k \delta_N(p_i, a)
+$$
 
 Therefore, we conclude that $L(D)=L(N)$.
 
