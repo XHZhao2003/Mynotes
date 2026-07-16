@@ -83,7 +83,7 @@ Consider the NFA shown in Figure 2.9.
 - The nondeterminism lies in the fact that the automaton can have multiple choices of moves, given current state and input symbol.
 - In each move, the NFA moves to all reachable states, and it is simultaneously in all states.
 
-![[Figure-2.9.png | Figure 2.9]]
+![Figure 2.9](assets/Figure-2.9.png)
 
 ---
 **Definition 2.3**: An NFA is represented by a 5-tuple:
