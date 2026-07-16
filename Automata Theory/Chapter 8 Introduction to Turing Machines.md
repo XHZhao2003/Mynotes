@@ -39,9 +39,11 @@ zhihu-updated-at: 2026-07-15 23:09
 
 - However, there are other programs that also print `hello world`.
 - A program may first try to solve the integer equation below where $n>2$, and if it finds a solution, then it prints `hello world` and exits.
+
 	$$
 	  x^n + y^n=z^n
 	$$
+
 - The program will try to solve this equation just by simple searching.
 - It takes human more than 300 years to prove that the equation has no integer solution, i.e., the simple program will not print `hello world`.
 - We may let the program solve any problem that mathematicians have not yet been able to resolve, and print `hello world` if it succeeds.
@@ -188,9 +190,11 @@ The working procedure of a Turing machine is as follows.
 ### Formal Definition of Turing Machines
 
   We describe a **Turing Machine** (TM) by the 7-tuple
+
 $$
   M = (Q, \Sigma, \Gamma, \delta, q_0, B, F)
 $$
+
   whose components have the following meanings:
 
   -  $Q$: The finite set of **states** of the finite control.
@@ -755,7 +759,11 @@ The TM simulating a computer will have several tapes.
 
 - The first tape represents the entire memory of the computer.
   - The words are encoded with their addresses in the following way
-    $$\$ 0 \ast w_0 \#1\ast w_1 \#10\ast w_2 \# 11 \ast w_3 \cdots$$
+
+    $$
+    \$ 0 \ast w_0 \#1\ast w_1 \#10\ast w_2 \# 11 \ast w_3 \cdots
+    $$
+
   - The $\ast$'s are end-markers of words.
   - The \$'s are end-marker of the memory.
   - The \#'s are used to separate the words and their addresses.
