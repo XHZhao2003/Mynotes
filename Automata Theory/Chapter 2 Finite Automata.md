@@ -36,7 +36,7 @@ $$
 
 ---
 
-**Extending the transition function to strings**
+**Extending the Transition Function to Strings**
 
 - To formally define the acceptance of a string by a DFA, we extend the transition function to describe multiple steps of transition.
 - The definition is by indecution on the length of the input strings.
@@ -54,7 +54,7 @@ $$
 That is, we first compute $\hat{\delta}(q, x)$  to find where we are after processing $x$ , and make another step by processing symbol $a$.
 
 ---
-**The language of a DFA**
+**The Language of a DFA**
 
 **Definition 2.3**: The language of a DFA $A = (Q, \Sigma, \delta, q_0, F)$ is defined by
 
@@ -113,7 +113,7 @@ $$
 Less formally, we compute $\hat{\delta}(q, w)$ by first computing $\hat{\delta}(q, x)$ , and by then following any transition from any of these states the is labeled $a$.
 
 ---
-**The language of an NFA**
+**The Language of an NFA**
 
 **Definition 2.5**: The language of an NFA $A = (Q, \Sigma, \delta, q_0, F)$ is defined as
 
@@ -130,7 +130,7 @@ That is, $L(A)$ is the set of strings $w \in \Sigma^*$ such that $\hat{\delta}(q
 - However, we are going to prove that DFA's can do whatever NFA's can do, and vice versa.
 - The technique we are going to use is called **subset construction**
 
-**Subset construction**
+**Subset Construction**
 
 Generally, the subset construction starts from an NFA $N = (Q_N, \Sigma, \delta_N, q_0, F_N)$, and gives a DFA $D = (Q_D, \Sigma, \delta_D, \lbrace q_0 \rbrace, F_D)$ such that $L(D)=L(N)$. 
 
@@ -210,7 +210,76 @@ In this way, for those "DFA"s that has some transitions missing, we can always a
 ### 2.4 Finite Automata With Epsilon-Transitions
 
 - We shall now introduce a new "feature" to the NFA, that is, to allow transitions on the empty string $\epsilon$.
-- In effect, an NFA can make a transition spontaneously
+- In effect, an NFA can make a transition spontaneously, without receiving an input symbol.
+- We call NFA's with $\epsilon$ transitions $\epsilon$-NFA's.
+
+---
+**Definition 2.6**: A $\epsilon$-NFA is represented $A = (Q, \Sigma, \delta, q_0, F)$ , where all components have their same interpretation as for an NFA, except that the transition function becomes
+
+$$
+\delta: Q \times (\Sigma \, \cup\, \epsilon) \to Q
+$$
+We require that $\epsilon \notin \Sigma$, so no confusion results.
+
+---
+**Epsilon-Closures**
+
+- We shall proceed to give definitions of an en extended transition function for $\epsilon$-NFA's.
+- Then, we can define their languages and discuss the equivalence with regular languages.
+- However, the $\epsilon$-transition may happen as many times as possible between two "real" transitions.
+- We first define the $\epsilon$-closure to simplify this behavior.
+
+---
+
+**Definition 2.7**: The $\epsilon$-closure of a state $q$ , represented by $\texttt{ECLOSE}(q)$ , is defined recursively as follows.
+
+**Basis**: State $q$ is in $\texttt{ECLOSE}(q)$.
+
+**Induction**: If state $p \in \texttt{ECLOSE}(q)$, then all states in $\delta(p, \epsilon)$ are also in $\texttt{ECLOSE}(q)$.
+
+---
+
+**Definition 2.8**: Suppose $E = (Q, \Sigma, \delta, q_0, F)$ is an $\epsilon$-NFA, the extended transition function $\hat{\delta}$ is defined recursively as follows:
+
+**Basis**: $\hat{\delta}(q, \epsilon)  = \texttt{ECLOSE}(q)$. That is, if the label of the path is $\epsilon$, then we can only follow $\epsilon$-transitions from state $q$.
+
+**Induction**: Suppose $w=xa$ where $a\in \Sigma$ is the last symbol of $w$. We compute $\hat{\delta}(q, w)$ as follows.
+1. Compute $\hat{\delta}(q, x)$ as follows
+
+$$
+\hat{\delta}(q, x) = \lbrace p_1, p_2, \cdots, p_k \rbrace
+$$
+
+2. Compute $\hat{\delta}(q, w)$ without considering $\epsilon$-transitions.
+
+$$
+\bigcup_{i=1}^k \delta(p_i, a) = \lbrace r_1, r_2, \cdots, r_m \rbrace
+$$
+
+3. Compute $\hat{\delta}(q, w)$ with $\epsilon$-transtions added.
+
+$$
+\hat{\delta}(q, w) = \bigcup_{i=1}^m \texttt{ECLOSE}(r_i)
+$$
+---
+**Definition 2.9**: The language of an $\epsilon$-NFA $E=(Q, \Sigma, \delta, q_0, F)$ is defined as
+
+$$
+L(E) = \lbrace w \mid \hat{\delta}(q_0, w) \, \cap \, F \neq \emptyset \rbrace
+$$
+
+That is, the language of $E$ is the set of strings that take the start state to at least one accepting state.
+
+---
+**Eliminating $\epsilon$-Transitions**
+
+
+
+
+
+
+
+
 
 
 Reference:  Introduction to Automata Theory, Languages, and Computation. John E. Hopcroft, Rajeev Motwani, Jeffrey D. Ullman.
