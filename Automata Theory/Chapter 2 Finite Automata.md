@@ -3,6 +3,8 @@ zhihu-title: Chapter 2 Finite Automata
 zhihu-topics:
   - 自动机
   - 理论计算机
+zhihu-link: https://zhuanlan.zhihu.com/p/2061857501356855678
+zhihu-created-at: 2026-07-18 16:58
 ---
 - In this Chapter, we will formally define **finite automata**, including deterministic automata and nondeterministic automata.
 	- The distinction is whether the control of the finite machine is deterministic, i.e., the automata cannot be in more than one state any one time.
@@ -273,13 +275,50 @@ That is, the language of $E$ is the set of strings that take the start state to 
 ---
 **Eliminating $\epsilon$-Transitions**
 
+- GIven any $\epsilon$-NFA $E$, we can find a DFA $D$ that accepts the same language as $E$.
+- The construction we use is essentially a modified version of subset construction.
+- The states of $D$ are subsets of the states of $E$, but we have to incorporate $\epsilon$-transitions of $E$.
 
+Let $E = (Q_E, \Sigma, \delta_E, q_0, F_E)$ . Then we construct the equivalent DFA $D=(Q_D, \Sigma, \delta_D, q_D, F_D)$ as follows:
+1. $Q_D$ is the set of subsets of $Q_E$.
+2. $q_D = \texttt{ECLOSE}(q_0)$. That is, the state start of $D$ contains the all states of $E$ that are reachable from $q_0$ by $\epsilon$-transitions.
+3. $F_D = \lbrace S \mid S \in Q_D, S\, \cup\, F_E \neq \emptyset \rbrace$. That is, $F_D$ is those sets of states that contain at least one accepting state of $E$.
+4. $\delta_D(S, a)$ is computed, for all $a\in \Sigma$ and sets $S \in Q_D$ by:
+	-  Let $S = \lbrace p_1, p_2, \cdots, p_k \rbrace$.
+	- Compute $\bigcup_{i=1}^k \delta_E(p_i, a) = \lbrace r_1, r_2, \cdots, r_m \rbrace$.
+	- Then $\delta_D(S, a) = \bigcup_{i=1}^m \lbrace \texttt{ECLOSE}(r_i) \rbrace$
 
+Note that for $Q_D$, we shall find all accessible states of $D$ are $\epsilon$-closed subsets of $Q_E$, and all other states of $Q_D$ are inaccessible.
 
+---
+**Theorem 2.3**: A language $L$ is accepted by some $\epsilon$-NFA is and only if $L$ is accepted by some DFA.
 
+**Proof**: (If) This direction is easy. Suppose $L = L(D)$ for some DFA. Turn $D$ into an $\epsilon$-DFA by adding transitions $\delta(q, \epsilon) = \emptyset$ for all states $q$ of $D$. Also, we have to convert each transition $\delta_D(q, a) = p$ into an NFA-transition $\delta(q, a) = \lbrace p \rbrace$. Then the resulted $\epsilon$-NFA accepts the same language.
 
+(Only-if) Let $E = (Q_E, \Sigma, \delta_E, q_0, F_E)$ be and $\epsilon$-NFA. Let the resulted DFA from the modified subset construction be
 
+$$
+D = (Q_D, \Sigma, \delta_D, q_D, F_D)
+$$
 
+We then show $L(D) = L(E)$ by showing $\hat{\delta}_D(q_0, w) = \hat{\delta}_E(q_0, w)$, by induction on the length of $w$.
+
+**Basis**: If $|w| = 0$, we have $w = \epsilon$. Clearly we have
+
+$$
+\hat{\delta}_D(q_0, \epsilon) = \texttt{ECLOSE}(q_0) = \hat{\delta}_E(q_0, \epsilon)
+$$
+
+**Induction**: Suppose $w=xa$ where $a \in \Sigma$ is the last symbol of $w$, and assume the statement holds for $x$. That is, $\hat{\delta}_D(q_0, x) = \hat{\delta}_E(q_0, x)$.
+
+Let $\hat{\delta}_D(q_0, x) = \hat{\delta}_E(q_0, x) = \lbrace p_1, p_2, \cdots, p_k$. Then by the definition of $\epsilon$-NFAs, $\hat{\delta}_E(q_0, w)$ is computed by:
+
+1. Let $\bigcup_{i=1}^k \delta_E(p_i, a) = \lbrace r_1, r_2, \cdots, r_m \rbrace$.
+2. Then $\hat{\delta}_E(q_0, w)= \bigcup_{i=1}^m \texttt{ECLOSE}(r_i)$.
+
+On the other hand, the computation of $\hat{\delta}_D(q_0, w)$ is just the same, according to the modified construction. Therefore, we conclude that $\hat{\delta}_D(q_0, w) = \hat{\delta}_E(q_0, w)$.
+
+---
 
 
 Reference:  Introduction to Automata Theory, Languages, and Computation. John E. Hopcroft, Rajeev Motwani, Jeffrey D. Ullman.
